@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+  <body>
+    <div class="container marketing">
+        <div class="jumbotron">
+
+            {% if user.is_authenticated %}
+                <p><span class='a1' >Привет, {{user.username}}</span></p>
+                <p>{{ auth }}</p>
+                <p><a class="btn btn-lg btn-success" href='logout' role="button" title="Выход">Выход</a></p>
+            {% endif %}
+        </div>
+    </div>
+  </body>
+{% endblock %}

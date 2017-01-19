@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Товар{% endblock %}
+{% block content %}
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+        <div class="jumbotron">
+            <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                <p>{{ catalog.product }}</p>
+                            </div>
+                            <img src="{{ MEDIA_URL }}{{ catalog.foto.url }}">
+                            <div class="caption">
+                                <p>В наличии {{ catalog.quantity }}шт.<span class="pull-right">Цена {{ catalog.price }} Руб.</span></p>
+                                {{ errors }}
+                                <form action="{% url 'product' catalog.id %}" method="POST">
+                                    {% csrf_token %}
+                                    {{ form }}
+                                    <button type="submit">Заказать</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                <h2>Уже купили</h2>
+                                {% for el in user %}
+                                    <p>{{ el }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+       </div>
+    </div>
+{% endblock %}

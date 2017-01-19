@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+
+    <div class="container marketing">
+            <div class="jumbotron">
+                <div class="row">
+                        {{ errors }}
+                        <form action="login" method="POST">
+                            {% csrf_token %}
+                            {{ form }}
+                            <button type="submit">Войти</button>
+                        </form>
+                        <span class='a1'><a href='register' title="Выход">  Регистрация </a></span>
+                </div>
+            </div>
+
+    </div>
+
+{% endblock %}

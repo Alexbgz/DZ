@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Каталог{% endblock %}
+{% block content %}
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+        <div class="jumbotron">
+            <div class="row">
+            <p><a class="btn btn-default btn-sm" href="/newproduct" role="button" title="Вход">Добавить</a></p>
+
+                <p><a href="#openModal" id="openM"><span class='contact' >Добавить</span></a></p>
+                <div id="openModal" class="modalDialog">
+                    <div>
+                        <a href="#close" title="Закрыть" class="close">X</a>
+                        <ul id="rezult"></ul>
+                        <h3>Добавить:</h3>
+                        {{ errors }}
+                        <form method="POST" action=""  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="save btn btn-default" id="save">Save</button>
+                        </form>
+                    </div>
+                </div>
+
+                {% for IDProduct in catalog %}
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <img src="{{ MEDIA_URL }}{{ IDProduct.foto.url }}">
+                            <div class="caption">
+                                <p>{{ IDProduct.product }}<span class="pull-right">Цена {{ IDProduct.price }} Руб.</span></p>
+                                <p><a class="btn btn-lg btn-success" href="{% url 'product' IDProduct.id %}" role="button">Купить</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if catalog.has_previous %}
+                            <a href="?page={{ catalog.previous_page_number }}">предыдущая</a>
+                        {% endif %}
+                        <span class="current">
+                            {{ catalog.number }} из {{ catalog.paginator.num_pages }}
+                        </span>
+                        {% if catalog.has_next %}
+                            <a href="?page={{ catalog.next_page_number }}">следующая</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+       </div>
+    </div>
+
+<script>
+    var a = document.getElementById('save');
+    a.onclick = function()
+                        {
+                          var data = [];
+                          var rezult = document.getElementById('rezult');
+                          $(rezult).empty();
+                          var product = document.getElementById('id_productr').value;
+                          var category = document.getElementById('id_category').value;
+                          var price = document.getElementById('id_price').value;
+                          var quantity = document.getElementById('id_quantity').value;
+                          var foto = document.getElementById('id_foto').value;
+                          var err = 0;
+                            if (product=='') {data.push('Введите название товара'); err++};
+                            if (category=='') {data.push('Введите категорию'); err++};
+                            if (price=='') {data.push('Введите цену'); err++};
+                            if (quantity=='') {data.push('Введите количество'); err++};
+                            if (!foto) {data.push('Загрузите картинку'); err++};
+                          for (var i=0; i<err; i++ )
+                          {
+                            var li = document.createElement('li');
+                            li.appendChild(document.createTextNode(data[i]));
+                            rezult.appendChild(li);
+                          }
+                        }
+</script>
+{% endblock %}

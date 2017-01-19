@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавление{% endblock %}
+
+{% block content %}
+    <div class="container marketing">
+        <div class="jumbotron">
+            <div class="jumbotron">
+                <div class="row">
+                        {{ errors }}
+                        <form enctype="multipart/form-data" action="" method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit">Добавить</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
